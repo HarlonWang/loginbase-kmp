@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "loginbase-kt"
+rootProject.name = "loginbase-kmp"
 
 include(":core")
 include(":browser")

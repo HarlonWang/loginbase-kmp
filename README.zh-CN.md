@@ -1,10 +1,10 @@
-# loginbase-kt
+# loginbase-kmp
 
 > [loginbase](https://github.com/HarlonWang/loginbase) 的 Kotlin Multiplatform 客户端——登录、会话、令牌刷新，全都替你办了。
 
 [English](README.md) | **简体中文**
 
-[![Maven Central](https://img.shields.io/maven-central/v/wang.harlon/loginbase-kt)](https://central.sonatype.com/artifact/wang.harlon/loginbase-kt)
+[![Maven Central](https://img.shields.io/maven-central/v/wang.harlon/loginbase-kmp)](https://central.sonatype.com/artifact/wang.harlon/loginbase-kmp)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 接完之后，**你的 App 代码里不会再出现任何 token**——没有 `Authorization` 头，没有刷新调用，没有 401 处理。服务端那一半是 [loginbase](https://github.com/HarlonWang/loginbase)，一个跑在你自己 Cloudflare Worker 里的库。
@@ -28,7 +28,7 @@
 
 ```kotlin
 dependencies {
-    implementation("wang.harlon:loginbase-kt:<version>")
+    implementation("wang.harlon:loginbase-kmp:<version>")
     implementation("io.ktor:ktor-client-okhttp:<ktor-version>")   // engine，Android
     implementation("io.ktor:ktor-client-auth:<ktor-version>")     // 第 3 步要用
 }
@@ -112,7 +112,7 @@ auth.signOut()                                        // 或 signOutAll() 登出
 只用邮箱验证码的话，核心 artifact 就够了。加上这个可选模块，整个授权往返都不用管：
 
 ```kotlin
-dependencies { implementation("wang.harlon:loginbase-kt-browser:<version>") }
+dependencies { implementation("wang.harlon:loginbase-kmp-browser:<version>") }
 
 android.defaultConfig {
     // 自有域名反写（RFC 8252 §7.1 的 MUST）；忘配是构建失败，不是登录失败

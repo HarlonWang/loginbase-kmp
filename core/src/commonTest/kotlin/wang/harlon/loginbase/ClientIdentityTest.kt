@@ -42,7 +42,7 @@ class ClientIdentityTest {
         val headers = sent.request!!.headers
         assertEquals("1.5.0", headers[CLIENT_VERSION_HEADER])
         assertEquals("android", headers[CLIENT_PLATFORM_HEADER])
-        assertEquals("TestApp/1.5.0 (Android 14; Pixel 7) loginbase-kt/$LIBRARY_VERSION", headers[HttpHeaders.UserAgent])
+        assertEquals("TestApp/1.5.0 (Android 14; Pixel 7) loginbase-kmp/$LIBRARY_VERSION", headers[HttpHeaders.UserAgent])
     }
 
     @Test
@@ -65,13 +65,13 @@ class ClientIdentityTest {
     @Test
     fun `deviceInfo 缺省时 UA 没有括号段`() {
         val ua = ClientInfo("TestApp", "2.0", ClientPlatform.IOS).userAgent()
-        assertTrue(ua.startsWith("TestApp/2.0 loginbase-kt/"), ua)
+        assertTrue(ua.startsWith("TestApp/2.0 loginbase-kmp/"), ua)
     }
 
     @Test
     fun `deviceInfo 的括号与反斜杠按 quoted-pair 转义，comment 始终闭合`() {
         val ua = ClientInfo("TestApp", "1.0", ClientPlatform.DESKTOP, "Windows 11; C:\\ (x64)").userAgent()
-        assertTrue(ua.startsWith("TestApp/1.0 (Windows 11; C:\\\\ \\(x64\\)) loginbase-kt/"), ua)
+        assertTrue(ua.startsWith("TestApp/1.0 (Windows 11; C:\\\\ \\(x64\\)) loginbase-kmp/"), ua)
     }
 
     @Test

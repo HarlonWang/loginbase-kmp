@@ -86,7 +86,7 @@
 - **现状**：`AuthClientTest.kt:280` 只覆盖了「signOut 发生在 refresh **进锁前**」，锁内注释也只讨论了这一种。
 - **修法**：`signOut` 也进锁，或加会话 epoch，`persist` 前校验没被换过。
 - **落地**：三件事——
-  0. （另记）`verifyCode` / `exchangeOtc` 有同源竞态，但本条的修法覆盖不到——它们是**新建**会话，出发时存储本就是空的，没有比对基准。已开 [issue #7](https://github.com/HarlonWang/loginbase-kt/issues/7) 单独跟踪，判断是代价与收益不匹配、暂不做。
+  0. （另记）`verifyCode` / `exchangeOtc` 有同源竞态，但本条的修法覆盖不到——它们是**新建**会话，出发时存储本就是空的，没有比对基准。已开 [issue #7](https://github.com/HarlonWang/loginbase-kmp/issues/7) 单独跟踪，判断是代价与收益不匹配、暂不做。
   1. 新增 `storeMutex`（只保护本地存储读改写，从不跨 HTTP），`signOut` / `signOutAll` 的清本地操作放进去；
   2. `refresh` 落盘前**重读存储比对**，令牌对不上就丢弃、返回 `NoSession` 且不碰 `authState`；检查与写入在同一把 `storeMutex` 里原子完成；
   3. 401 分支改用 `signedOutUnlessAlready`——见下。
@@ -242,7 +242,7 @@
 - **问题**：`githubSignInUrl()` 只返回字符串，README 让消费方自己 `openInBrowser(...)`。业界（Auth0、Firebase、AppAuth、Clerk）都把这步收进 SDK，Android 用 Custom Tabs / 新的 AuthTab——不是为省事，而是回调拦截、用户取消这些点每个接入方都会踩。`:161` 的注释自己强调了「不要用内置 WebView」，**但把执行这条纪律的责任推给了调用方**。另外 `exchangeOtc` 要 App 自己从 deep link 抠 `otc`，而 link 流程回跳的是 `linked=github` / `error=already_linked`，完全另一套，库连 `parseCallback(uri)` 都没提供。
 - **修法**：Android 侧提供 Custom Tabs 启动器 + `parseCallback(uri)`；至少先补 `parseCallback`，成本最低收益最直接。
 
-- **落地**：远超原修法——完整设计见 `docs/oauth-browser-design.md`（十条差异对照 AppAuth/Auth0/TrendingAI 逐条校准后定稿）。分期 1（commonMain：`OAuthOutcome`/`handleOAuthCallback`/`oauthResults`+consume/otc 幂等/停泊排空，PR #8）与 2a（可选模块 `loginbase-kt-browser`：中转页+管理页双 Activity、CCT/系统浏览器回退、取消分层、冷启动停泊，PR #10）已合并；README 接入指南已更新（3 期）；TrendingAI 生产接入并真机验收通过（净 -87 行，验收结论在设计文档 §8，含 AppAuth #977 场景的实测免疫）。六条预记反向验证点全部执行。**遗留**：2b（Auth Tab 优先级，纯增强）与 §8 的三项补验（CCT 形态、无 CCT 设备兜底、link 流程）。
+- **落地**：远超原修法——完整设计见 `docs/oauth-browser-design.md`（十条差异对照 AppAuth/Auth0/TrendingAI 逐条校准后定稿）。分期 1（commonMain：`OAuthOutcome`/`handleOAuthCallback`/`oauthResults`+consume/otc 幂等/停泊排空，PR #8）与 2a（可选模块 `loginbase-kmp-browser`：中转页+管理页双 Activity、CCT/系统浏览器回退、取消分层、冷启动停泊，PR #10）已合并；README 接入指南已更新（3 期）；TrendingAI 生产接入并真机验收通过（净 -87 行，验收结论在设计文档 §8，含 AppAuth #977 场景的实测免疫）。六条预记反向验证点全部执行。**遗留**：2b（Auth Tab 优先级，纯增强）与 §8 的三项补验（CCT 形态、无 CCT 设备兜底、link 流程）。
 
 ### [x] 29. 有个测试真实耗时 45 秒 — 已完成（随第 14 条）
 

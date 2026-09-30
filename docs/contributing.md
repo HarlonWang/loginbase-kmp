@@ -21,7 +21,7 @@
 ## 发布
 
 打裸版本号 tag（如 `0.1.0`）触发 CI 在 macos runner 上 `publishAndReleaseToMavenCentral`。
-核心与 `loginbase-kt-browser` 同版本发布。
+核心与 `loginbase-kmp-browser` 同版本发布。
 
 ## 协议变更纪律
 

@@ -143,7 +143,7 @@ TTL 调到 4 小时，登出后旧令牌就能再活 4 小时。那是拿安全�
 
 **核心 artifact = `ktor-client-core` + `kotlinx-serialization-json` +
 `kotlinx-coroutines-core`，仅此三个。** 可选平台模块只允许**该平台的一等公民 API**
-（`loginbase-kt-browser` 的 `androidx.browser` / `kotlinx-coroutines-android`——AndroidX
+（`loginbase-kmp-browser` 的 `androidx.browser` / `kotlinx-coroutines-android`——AndroidX
 与 JetBrains，信任级别同系统 SDK；supabase-kt 的 `Auth` 模块同此分法）。
 
 具体地：

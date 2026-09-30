@@ -1,10 +1,10 @@
-# loginbase-kt
+# loginbase-kmp
 
 > Kotlin Multiplatform client for [loginbase](https://github.com/HarlonWang/loginbase) — sign-in, sessions and token refresh, handled.
 
 **English** | [简体中文](README.zh-CN.md)
 
-[![Maven Central](https://img.shields.io/maven-central/v/wang.harlon/loginbase-kt)](https://central.sonatype.com/artifact/wang.harlon/loginbase-kt)
+[![Maven Central](https://img.shields.io/maven-central/v/wang.harlon/loginbase-kmp)](https://central.sonatype.com/artifact/wang.harlon/loginbase-kmp)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 Once this is wired up, **your app code never contains a token** — no `Authorization` header, no refresh call, no 401 handler. The server half is [loginbase](https://github.com/HarlonWang/loginbase), a library that runs inside your own Cloudflare Worker.
@@ -28,7 +28,7 @@ Once this is wired up, **your app code never contains a token** — no `Authoriz
 
 ```kotlin
 dependencies {
-    implementation("wang.harlon:loginbase-kt:<version>")
+    implementation("wang.harlon:loginbase-kmp:<version>")
     implementation("io.ktor:ktor-client-okhttp:<ktor-version>")   // engine, Android
     implementation("io.ktor:ktor-client-auth:<ktor-version>")     // for step 3
 }
@@ -113,7 +113,7 @@ From here, business code is just `api.get("$BASE/api/feed").body()`.
 Email codes need nothing but the core artifact. Add the optional module and the whole authorization round trip is handled:
 
 ```kotlin
-dependencies { implementation("wang.harlon:loginbase-kt-browser:<version>") }
+dependencies { implementation("wang.harlon:loginbase-kmp-browser:<version>") }
 
 android.defaultConfig {
     // Reverse-DNS of a domain you own (RFC 8252 §7.1); missing it fails the build, not the login

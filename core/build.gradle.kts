@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.vanniktech.mavenPublish)
 }
 
-// UA 里的 loginbase-kt/<版本> 令牌：CI 发版时经 VERSION_NAME 注入正式号，本地读 gradle.properties 的
+// UA 里的 loginbase-kmp/<版本> 令牌：CI 发版时经 VERSION_NAME 注入正式号，本地读 gradle.properties 的
 // SNAPSHOT；属性根本不存在才落 "unknown"，故意显眼。
 // 生成源码而非 const：const 会内联进消费方字节码，升级本库不重编译时读到旧值（同 Protocol.kt 的取舍）
 val generateLibraryVersion by tasks.registering {
@@ -79,12 +79,12 @@ mavenPublishing {
         signAllPublications()
     }
 
-    coordinates(groupId = "wang.harlon", artifactId = "loginbase-kt")
+    coordinates(groupId = "wang.harlon", artifactId = "loginbase-kmp")
 
     pom {
-        name.set("loginbase-kt")
+        name.set("loginbase-kmp")
         description.set("Kotlin Multiplatform client for loginbase — email OTP, social OAuth and session management.")
-        url.set("https://github.com/HarlonWang/loginbase-kt")
+        url.set("https://github.com/HarlonWang/loginbase-kmp")
 
         licenses {
             license {
@@ -100,9 +100,9 @@ mavenPublishing {
             }
         }
         scm {
-            url.set("https://github.com/HarlonWang/loginbase-kt")
-            connection.set("scm:git:git://github.com/HarlonWang/loginbase-kt.git")
-            developerConnection.set("scm:git:ssh://git@github.com/HarlonWang/loginbase-kt.git")
+            url.set("https://github.com/HarlonWang/loginbase-kmp")
+            connection.set("scm:git:git://github.com/HarlonWang/loginbase-kmp.git")
+            developerConnection.set("scm:git:ssh://git@github.com/HarlonWang/loginbase-kmp.git")
         }
     }
 }

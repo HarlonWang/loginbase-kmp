@@ -20,11 +20,11 @@
 
 | 症状 | 原因 |
 |---|---|
-| 构建失败 `requires a placeholder substitution` | 没配 `loginbaseRedirectScheme`，或当前变体没配。不用社交登录就不要引 `loginbase-kt-browser` |
+| 构建失败 `requires a placeholder substitution` | 没配 `loginbaseRedirectScheme`，或当前变体没配。不用社交登录就不要引 `loginbase-kmp-browser` |
 | 浏览器停在 `invalid_redirect`，App 无任何反应 | 服务端白名单缺这条 redirect；两边字符串肉眼相同时**数斜杠**——`scheme:/path` 单斜杠才对，`scheme://path` 会把 path 段解析成 host，精确匹配直接失败 |
 | 发起即抛「没有任何 Activity 认领」 | scheme 写错，或当前构建变体没配 placeholder |
 | 发起即抛「scheme 被其他应用抢注」 | 别的 App 声明了同一 scheme——这同时是安全信号，换独占的自有域名反写 |
-| **其他模块**的单测任务构建失败、报同一 placeholder 错误 | 直接依赖 `loginbase-kt-browser` 的 Gradle 模块，其 test manifest 合并同样需要该占位符：经典 library 模块在 `defaultConfig` 给一行任意值；KMP android 模块的 DSL 没有 `manifestPlaceholders`，在 hostTest 源集放一个把本库三个节点 `tools:node="remove"` 掉的 manifest。根治办法是只由 App 模块依赖本模块，共享逻辑层用注入点解耦（`var launcher: ((AuthClient, Mode) -> Boolean)?`，App 启动时注入） |
+| **其他模块**的单测任务构建失败、报同一 placeholder 错误 | 直接依赖 `loginbase-kmp-browser` 的 Gradle 模块，其 test manifest 合并同样需要该占位符：经典 library 模块在 `defaultConfig` 给一行任意值；KMP android 模块的 DSL 没有 `manifestPlaceholders`，在 hostTest 源集放一个把本库三个节点 `tools:node="remove"` 掉的 manifest。根治办法是只由 App 模块依赖本模块，共享逻辑层用注入点解耦（`var launcher: ((AuthClient, Mode) -> Boolean)?`，App 启动时注入） |
 
 ## 社交登录的已知限制
 

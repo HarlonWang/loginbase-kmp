@@ -143,7 +143,7 @@ fun consumeOauthResult()
 
 ### 5.2 可选浏览器模块（Android-only，独立 artifact）
 
-浏览器环节整体住在**独立的可选 artifact**（暂名 `loginbase-kt-browser`，同仓同版本
+浏览器环节整体住在**独立的可选 artifact**（暂名 `loginbase-kmp-browser`，同仓同版本
 发布）：两个 Activity、manifest 声明、三级回退链、下面的扩展函数、`androidx.browser`
 依赖都在这里。**不用社交登录的消费方不引它，零感知**——没有 placeholder 要配、没有
 多余 Activity 合并进来（裁决过程见 §11 差异 #10，含 AppAuth/Auth0 单 artifact 形态的
@@ -1060,7 +1060,7 @@ FAQ 本身。
 
 ### 方案
 
-1. **浏览器环节拆独立可选 artifact**（暂名 `loginbase-kt-browser`，Android-only，
+1. **浏览器环节拆独立可选 artifact**（暂名 `loginbase-kmp-browser`，Android-only，
    同仓同版本发布）：两个 Activity、manifest 声明 + placeholder + meta-data、三级
    回退链、`signIn()/link()` 扩展、`androidx.browser` 依赖全在其中。核心 artifact
    零变化，不用社交登录的消费方零感知

@@ -66,12 +66,12 @@ mavenPublishing {
         signAllPublications()
     }
 
-    coordinates(groupId = "wang.harlon", artifactId = "loginbase-kt-browser")
+    coordinates(groupId = "wang.harlon", artifactId = "loginbase-kmp-browser")
 
     pom {
-        name.set("loginbase-kt-browser")
-        description.set("Optional OAuth redirect handling for loginbase-kt — Custom Tab / system browser on Android, ASWebAuthenticationSession on iOS.")
-        url.set("https://github.com/HarlonWang/loginbase-kt")
+        name.set("loginbase-kmp-browser")
+        description.set("Optional OAuth redirect handling for loginbase-kmp — Custom Tab / system browser on Android, ASWebAuthenticationSession on iOS.")
+        url.set("https://github.com/HarlonWang/loginbase-kmp")
 
         licenses {
             license {
@@ -87,9 +87,9 @@ mavenPublishing {
             }
         }
         scm {
-            url.set("https://github.com/HarlonWang/loginbase-kt")
-            connection.set("scm:git:git://github.com/HarlonWang/loginbase-kt.git")
-            developerConnection.set("scm:git:ssh://git@github.com/HarlonWang/loginbase-kt.git")
+            url.set("https://github.com/HarlonWang/loginbase-kmp")
+            connection.set("scm:git:git://github.com/HarlonWang/loginbase-kmp.git")
+            developerConnection.set("scm:git:ssh://git@github.com/HarlonWang/loginbase-kmp.git")
         }
     }
 }

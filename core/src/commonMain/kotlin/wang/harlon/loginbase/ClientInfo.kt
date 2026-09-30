@@ -28,11 +28,11 @@ data class ClientInfo(
         }
     }
 
-    /** `App/1.5.0 (deviceInfo) loginbase-kt/0.4.0`：RFC 9110 产品令牌，库自己的令牌追加在末尾 */
+    /** `App/1.5.0 (deviceInfo) loginbase-kmp/0.4.0`：RFC 9110 产品令牌，库自己的令牌追加在末尾 */
     internal fun userAgent(): String = buildString {
         append(appName).append('/').append(version)
         deviceInfo?.trim()?.takeIf { it.isNotEmpty() }?.let { append(" (").append(quoteComment(it)).append(')') }
-        append(" loginbase-kt/").append(LIBRARY_VERSION)
+        append(" loginbase-kmp/").append(LIBRARY_VERSION)
     }
 
     private companion object {

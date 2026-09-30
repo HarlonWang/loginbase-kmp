@@ -86,7 +86,7 @@ AuthClient(baseUrl, store) {
 }
 ```
 
-配了之后每个请求带 `X-Client-Version` / `X-Client-Platform` 两个头与 `User-Agent`（`TrendingAI/1.5.0 (Android 14; Pixel 7) loginbase-kt/0.4.0`），`signInUrl` 带同名参数——浏览器发出的 start 带不了 App 的头。不配就一个字都不发，服务端把该 App 记作「未上报世代」。**版本与平台只从这两个头 / 参数读，服务端不解析 UA**；UA 里的机型、渠道只供人工排障。
+配了之后每个请求带 `X-Client-Version` / `X-Client-Platform` 两个头与 `User-Agent`（`TrendingAI/1.5.0 (Android 14; Pixel 7) loginbase-kmp/0.4.0`），`signInUrl` 带同名参数——浏览器发出的 start 带不了 App 的头。不配就一个字都不发，服务端把该 App 记作「未上报世代」。**版本与平台只从这两个头 / 参数读，服务端不解析 UA**；UA 里的机型、渠道只供人工排障。
 
 ## 定制 engine
 
@@ -102,7 +102,7 @@ engine 的生命周期仍归你，`AuthClient.close()` 不会关它。为什么�
 ## 社交登录接线
 
 ```kotlin
-dependencies { implementation("wang.harlon:loginbase-kt-browser:<version>") }
+dependencies { implementation("wang.harlon:loginbase-kmp-browser:<version>") }
 
 android.defaultConfig {
     // 自有域名反写（RFC 8252 §7.1 的 MUST，example.cn → cn.example）；忘配会直接构建失败
