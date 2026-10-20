@@ -94,6 +94,13 @@ auth.signIn(activity, OAuthProvider.GitHub)           // 需要下面那个 brow
 auth.signOut()                                        // 或 signOutAll() 登出该用户全部会话
 ```
 
+**删号**（服务端 3.1.0 起、需服务端配置 `accountDeletion`）：先往账号邮箱发删号码，再凭码删除，成功后本地会话自动清掉。服务端拒删时抛 `AuthError.DELETION_BLOCKED`，原因在 `e.reason`。
+
+```kotlin
+auth.sendAccountDeletionCode()
+auth.deleteAccount(code)
+```
+
 到这里，业务代码就只剩 `api.get("$BASE/api/feed").body()`。
 
 ## 你不用写的东西
@@ -141,7 +148,7 @@ auth.signIn(OAuthProvider.GitHub, redirect = "cn.example:/loginbase/callback")
 
 ## 协议兼容
 
-本库用 `PROTOCOL_VERSION` 声明自己实现的协议版本，当前是 **1.8.0**。服务端的 minor 版本在 wire 上向后兼容，所以新服务端配老客户端能用——该升级的理由是你想要某个后续 minor 加的能力，而不是版本号对不上。两仓各自独立版本线。
+本库用 `PROTOCOL_VERSION` 声明自己实现的协议版本，当前是 **3.1.0**。服务端的 minor 版本在 wire 上向后兼容，所以新服务端配老客户端能用——该升级的理由是你想要某个后续 minor 加的能力，而不是版本号对不上。两仓各自独立版本线。
 
 ## License
 

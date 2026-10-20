@@ -276,6 +276,55 @@ class AuthClient(
     }
 
     /**
+     * `POST /account/delete/code`（服务端 3.1.0 起）：往**账号邮箱**发删号验证码，客户端不传邮箱。
+     * 服务端可能拒删（[AuthError.DELETION_BLOCKED]，原因在 [LoginbaseException.Api.reason]），
+     * 此时不发信——用户不会收了码才被拒。
+     */
+    suspend fun sendAccountDeletionCode(): SendCodeResult {
+        val body = authedRequest(
+            url = "$base/account/delete/code",
+            payload = buildMap { resolveLocale()?.let { put("locale", it) } },
+            action = "Deleting an account",
+        )
+        return SendCodeResult(
+            cooldownSeconds = body.intOrNull("cooldownSeconds") ?: DEFAULT_COOLDOWN
+        )
+    }
+
+    /**
+     * `POST /account/delete`（服务端 3.1.0 起）：凭删号码删除账号，成功后清本地会话。
+     * 与 [signOut] 相反，**先等服务端成功再清本地**：删号失败时用户应仍是登录态，能看到错误并重试。
+     */
+    suspend fun deleteAccount(code: String) {
+        authedRequest(
+            url = "$base/account/delete",
+            payload = mapOf("code" to code),
+            action = "Deleting an account",
+        )
+        withContext(NonCancellable) { clearLocally() }
+    }
+
+    /**
+     * 需要 Bearer 的 POST：本地 access token 过期（401）时单飞刷新后重试一次。
+     * 刷新失败说明会话已不可用，按未登录处理。
+     */
+    private suspend fun authedRequest(
+        url: String,
+        payload: Map<String, String>,
+        action: String,
+    ): JsonObject {
+        val notAuthenticated = { LoginbaseException.NotAuthenticated("$action requires an authenticated session") }
+        val token = accessToken() ?: throw notAuthenticated()
+        return try {
+            request(url, payload, bearer = token)
+        } catch (e: LoginbaseException.Api) {
+            if (e.status != 401) throw e
+            val fresh = accessToken(forceRefresh = true) ?: throw notAuthenticated()
+            request(url, payload, bearer = fresh)
+        }
+    }
+
+    /**
      * 取当前 access token；无会话或刷新失败返回 null。
      * 顺手把还停在 Unknown 的 [authState] 补齐——避免「状态说 Unknown、这里却有令牌」的矛盾。
      * @param forceRefresh 业务请求 401 时传 true，走单飞刷新再重试一次
@@ -513,6 +562,7 @@ class AuthClient(
                 error = AuthError.fromWire(raw),
                 retryAfterSeconds = body?.intOrNull("retryAfterSeconds"),
                 rawError = diagnosable,
+                reason = body?.stringOrNull("reason"),
             )
         }
         return body ?: JsonObject(emptyMap())

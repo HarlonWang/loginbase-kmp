@@ -95,6 +95,13 @@ auth.signIn(activity, OAuthProvider.GitHub)           // needs the browser modul
 auth.signOut()                                        // or signOutAll() for every session
 ```
 
+**Deleting an account** (server 3.1.0+, with `accountDeletion` configured): send a deletion code to the account email, then delete with it; the local session is cleared on success. If the server refuses, you get `AuthError.DELETION_BLOCKED` with the cause in `e.reason`.
+
+```kotlin
+auth.sendAccountDeletionCode()
+auth.deleteAccount(code)
+```
+
 From here, business code is just `api.get("$BASE/api/feed").body()`.
 
 ## What you don't have to write
@@ -142,7 +149,7 @@ auth.signIn(OAuthProvider.GitHub, redirect = "cn.example:/loginbase/callback")
 
 ## Protocol compatibility
 
-This library declares the protocol version it implements as `PROTOCOL_VERSION`, currently **1.9.0**. Server minor releases are backward compatible on the wire, so a newer server works with an older client — upgrade when you want a capability a later minor added, not because the numbers differ. The two repositories keep independent version lines.
+This library declares the protocol version it implements as `PROTOCOL_VERSION`, currently **3.1.0**. Server minor releases are backward compatible on the wire, so a newer server works with an older client — upgrade when you want a capability a later minor added, not because the numbers differ. The two repositories keep independent version lines.
 
 ## License
 

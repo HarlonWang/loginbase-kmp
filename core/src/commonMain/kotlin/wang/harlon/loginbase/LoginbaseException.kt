@@ -18,6 +18,11 @@ sealed class LoginbaseException(
         val retryAfterSeconds: Int? = null,
         /** 服务端原始 error 串，排查未认识的新错误码用 */
         val rawError: String = error.wire,
+        /**
+         * 附带的细分原因：`deletion_blocked` 时是 App 自定的拒删原因（如 `active_subscription`），
+         * 取值归服务端 App 所有，故是原始串而非枚举。
+         */
+        val reason: String? = null,
     ) : LoginbaseException("loginbase api error: $rawError (HTTP $status)")
 
     /** 传输层失败。含义是「这次没打通，会话本身没有结论」——**不要据此清会话**。 */

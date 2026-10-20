@@ -24,6 +24,8 @@ class ProtocolTest {
             AuthError.INVALID_STATE to "invalid_state",
             AuthError.INVALID_OTC to "invalid_otc",
             AuthError.NOT_CONFIGURED to "not_configured",
+            AuthError.ACCOUNT_NOT_FOUND to "account_not_found",
+            AuthError.DELETION_BLOCKED to "deletion_blocked",
             AuthError.INTERNAL to "internal",
         )
         expected.forEach { (code, wire) -> assertEquals(wire, code.wire) }

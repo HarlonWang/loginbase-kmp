@@ -7,7 +7,7 @@ package wang.harlon.loginbase
  * 恰好毁掉本常量的用途。写成显式 getter 而非带 backing field 的 `val`，是为了让
  * 「不可内联」在语法上就成立——IDE 不会再劝改 const，也就没人会顺手采纳。
  */
-val PROTOCOL_VERSION: String get() = "1.9.0"
+val PROTOCOL_VERSION: String get() = "3.1.0"
 
 /**
  * 协议错误码（`{"error": "..."}` 的取值），与 protocol.md 错误码总表一一对应；
@@ -39,6 +39,12 @@ enum class AuthError(internal val wire: String) {
     INVALID_OTC("invalid_otc"),
 
     NOT_CONFIGURED("not_configured"),
+
+    /** 删号时账号已不存在（服务端 3.1.0 起） */
+    ACCOUNT_NOT_FOUND("account_not_found"),
+
+    /** App 拒绝删号，原因见 [LoginbaseException.Api.reason]（服务端 3.1.0 起） */
+    DELETION_BLOCKED("deletion_blocked"),
 
     INTERNAL("internal"),
 
